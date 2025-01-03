@@ -1,0 +1,41 @@
+name: "Optim Guard"
+description: "Blocks pull requests with unoptimised images"
+author: "Chris Rutkowski"
+inputs:
+  ignore_file:
+    description: "Path to the ignore file"
+    required: true
+    default: "./optim_guard.ignore"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install optimization tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y pngquant jpegoptim webp gifsicle
+        npm install -g svgo
+
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v45
+      with:
+        json: true
+        write_output_files: true
+        safe_output: false
+
+    - name: Run Optim Guard
+      run: |
+        python3 ${GITHUB_ACTION_PATH}/optim_guard.py ${{ inputs.ignore_file }} .github/outputs/modified_files.json .github/outputs/added_files.json
+      shell: bash
+
+    - name: Upload
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: optim_guard_result
+        path: optim_guard_result
+        retention-days: 1
