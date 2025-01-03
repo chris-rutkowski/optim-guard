@@ -35,7 +35,7 @@ runs:
 
     - name: Upload
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: optim_guard_result
         path: optim_guard_result
