@@ -18,6 +18,7 @@ runs:
         sudo apt-get update
         sudo apt-get install -y pngquant jpegoptim webp gifsicle
         npm install -g svgo
+      shell: bash
 
     - name: Get changed files
       id: changed-files
