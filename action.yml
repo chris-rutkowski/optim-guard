@@ -21,6 +21,7 @@ runs:
       shell: bash
 
     - name: Get changed files
+      if: ${{ github.event_name == 'pull_request' }}
       id: changed-files
       uses: tj-actions/changed-files@v45
       with:
@@ -28,9 +29,15 @@ runs:
         write_output_files: true
         safe_output: false
 
+    - name: Get all files
+      if: ${{ github.event_name != 'pull_request' }}
+      run: |
+        find . -type f | sed 's|^\./||' | jq -R . | jq -s . > .github/outputs/all_repo_files.json
+      shell: bash
+
     - name: Run Optim Guard
       run: |
-        python3 ${GITHUB_ACTION_PATH}/optim_guard.py ${{ inputs.ignore_file }} .github/outputs/modified_files.json .github/outputs/added_files.json
+        python3 ${GITHUB_ACTION_PATH}/optim_guard.py ${{ inputs.ignore_file }} .github/outputs/modified_files.json .github/outputs/added_files.json .github/outputs/all_repo_files.json
       shell: bash
 
     - name: Upload
