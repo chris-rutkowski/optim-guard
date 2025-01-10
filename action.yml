@@ -32,6 +32,7 @@ runs:
     - name: Get all files
       if: ${{ github.event_name == 'pull_request' }}
       run: |
+        mkdir -p .github/outputs/
         find . -type f | sed 's|^\./||' | jq -R . | jq -s . > .github/outputs/all_repo_files.json
       shell: bash
 
