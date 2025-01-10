@@ -30,6 +30,10 @@ def get_file_type(file):
         return "pdf"
     return None
 
+def change_file_extension(file, extension):
+    root, _ = os.path.splitext(file)
+    return f"{root}.{extension}"
+
 def process_file(file, file_type):
     temp_dir = tempfile.gettempdir()
     
@@ -37,6 +41,9 @@ def process_file(file, file_type):
 
     while True:
         temp_file = os.path.join(temp_dir, str(uuid.uuid4()))
+
+        if file_type == "pdf":
+            temp_file = change_file_extension(temp_file, "svg")
 
         commands = {
             "svg": ["svgo", working_copy, "-o", temp_file],
