@@ -12,6 +12,7 @@
   - JPG/JPEG
   - WebP
   - GIF
+  - PDF (converted to optimised SVG)
 - **Customizable with ignore files**: Use a `.gitignore`-like file to exclude specific files or directories.
 - **Download optimized assets**: Automatically uploads optimized images as a downloadable artifact for easy replacement.
 
@@ -74,7 +75,8 @@ steps:
    - **JPG/JPEG**: [jpegoptim](https://github.com/tjko/jpegoptim)
    - **WebP**: [cwebp](https://developers.google.com/speed/webp)
    - **GIF**: [gifsicle](https://www.lcdf.org/gifsicle/)
-3. If unoptimized images are found, the PR is blocked, and a downloadable artifact (`optim_guard_result`) is uploaded with the optimized images for developers to review and replace as necessary.
+3. PDF files are converted to SVG using [pdf2svg](https://github.com/dawbarton/pdf2svg) and optimized with [SVGO](https://github.com/svg/svgo).
+4. If unoptimized images are found, the PR is blocked, and a downloadable artefact (`optim_guard_result`) is uploaded with the optimized images for developers to review and replace as necessary.
 
 **Note:**  
 The optimization process only performs **lossless optimization**. This ensures no degradation in image quality while reducing file sizes. However, already optimized images may still be reprocessed if their size can be further reduced. Developers are encouraged to use their judgment to optimize images to an acceptable quality level before committing them, especially when balancing quality and file size.
