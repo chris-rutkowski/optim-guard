@@ -65,6 +65,12 @@ def process_file(file, file_type):
         if not os.path.exists(temp_file) or os.path.getsize(temp_file) == 0:
             break
 
+        # Reprocess PDF as SVG
+        if file_type == "pdf":
+            working_copy = temp_file
+            file_type = "svg"
+            continue
+
         original_size = os.path.getsize(working_copy)
         optimized_size = os.path.getsize(temp_file)
 
@@ -72,11 +78,6 @@ def process_file(file, file_type):
             break
 
         working_copy = temp_file
-
-        # Reprocess PDF as SVG
-        if file_type == "pdf":
-            file_type = "svg"
-            continue
 
     if working_copy == file:
         return 0
@@ -87,7 +88,7 @@ def process_file(file, file_type):
     if optimized_size >= original_size:
         return 0
 
-    optimized_file = os.path.join("optim_guard_result", file)
+    optimized_file = os.path.join("optim_guard_result3", file)
 
     if file_type == "svg" and file.endswith(".pdf"):
         optimized_file = swap_extension(optimized_file, "svg")
@@ -111,7 +112,7 @@ files = load_files_from_json(sys.argv[2:])
 
 total_reduced_bytes = 0
 
-os.makedirs("optim_guard_result2", exist_ok=True)
+os.makedirs("optim_guard_result3", exist_ok=True)
 
 for file in files:
     if not file:
