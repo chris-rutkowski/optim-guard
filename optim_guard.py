@@ -101,6 +101,8 @@ def process_file(file, file_type):
 def load_files_from_json(file_paths):
     files = []
     for file_path in file_paths:
+        if not os.path.exists(file_path):
+            continue
         with open(file_path, "r") as f:
             files.extend(json.load(f))
     return files
