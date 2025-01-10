@@ -42,9 +42,6 @@ def process_file(file, file_type):
     while True:
         temp_file = os.path.join(temp_dir, str(uuid.uuid4()))
 
-        if file_type == "pdf":
-            temp_file = change_file_extension(temp_file, "svg")
-
         commands = {
             "svg": ["svgo", working_copy, "-o", temp_file],
             "png": ["pngquant", working_copy, "-o", temp_file],
@@ -89,6 +86,10 @@ def process_file(file, file_type):
         return 0
 
     optimized_file = os.path.join("optim_guard_result", file)
+
+    if file_type == "svg" and file.endswith(".pdf"):
+        optimized_file = change_file_extension(optimized_file, "svg")
+    
     os.makedirs(os.path.dirname(optimized_file), exist_ok=True)
     shutil.move(working_copy, optimized_file)
 
