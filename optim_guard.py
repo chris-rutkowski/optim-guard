@@ -7,6 +7,8 @@ import sys
 import tempfile
 import uuid
 
+output_folder = "optim_guard_result"
+
 def load_ignore_patterns(ignore_file):
     with open(ignore_file, "r") as f:
         return [line.strip() for line in f if line.strip() and not line.startswith("#")]
@@ -86,7 +88,7 @@ def process_file(file, file_type):
     if optimized_size >= original_size:
         return 0
 
-    optimized_file = os.path.join("optim_guard_result4", file)
+    optimized_file = os.path.join(output_folder, file)
 
     if file_type == "svg" and get_file_type(file) == "pdf":
         optimized_file = swap_extension(optimized_file, "svg")
@@ -107,8 +109,6 @@ ignore_patterns = load_ignore_patterns(sys.argv[1])
 files = load_files_from_json(sys.argv[2:])
 
 total_reduced_bytes = 0
-
-os.makedirs("optim_guard_result4", exist_ok=True)
 
 for file in files:
     if not file:
