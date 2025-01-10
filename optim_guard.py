@@ -26,6 +26,8 @@ def get_file_type(file):
         return "webp"
     if ext in ["gif"]:
         return "gif"
+    if ext in ["pdf"]:
+        return "pdf"
     return None
 
 def process_file(file, file_type):
@@ -41,7 +43,8 @@ def process_file(file, file_type):
             "png": ["pngquant", working_copy, "-o", temp_file],
             "jpg": ["jpegoptim", "--stdout", working_copy],
             "webp": ["cwebp", "-z", "9", working_copy, "-o", temp_file],
-            "gif": ["gifsicle", "--optimize=3", "--output", temp_file, working_copy]
+            "gif": ["gifsicle", "--optimize=3", "--output", temp_file, working_copy],
+            "pdf": ["pdf2svg", working_copy, temp_file]
         }
 
         if file_type == "jpg":
@@ -63,6 +66,11 @@ def process_file(file, file_type):
             break
 
         working_copy = temp_file
+
+        # Reprocess PDF as SVG
+        if file_type == "pdf":
+            file_type = "svg"
+            continue
 
     if working_copy == file:
         return 0
