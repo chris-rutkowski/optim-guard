@@ -21,7 +21,7 @@ runs:
       shell: bash
 
     - name: Get changed files
-      if: ${{ github.event_name == 'pull_request' }}
+      if: ${{ github.event_name != 'pull_request' }}
       id: changed-files
       uses: tj-actions/changed-files@v45
       with:
@@ -30,7 +30,7 @@ runs:
         safe_output: false
 
     - name: Get all files
-      if: ${{ github.event_name != 'pull_request' }}
+      if: ${{ github.event_name == 'pull_request' }}
       run: |
         find . -type f | sed 's|^\./||' | jq -R . | jq -s . > .github/outputs/all_repo_files.json
       shell: bash
