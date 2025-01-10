@@ -35,11 +35,13 @@ def change_file_extension(file, extension):
     return f"{root}.{extension}"
 
 def process_file(file, file_type):
+    print(f"process_file {file} {file_type}")
     temp_dir = tempfile.gettempdir()
     
     working_copy = file
 
     while True:
+        print(f"while iteration {file} {file_type}")
         temp_file = os.path.join(temp_dir, str(uuid.uuid4()))
 
         commands = {
@@ -89,8 +91,10 @@ def process_file(file, file_type):
 
     if file_type == "svg" and file.endswith(".pdf"):
         optimized_file = change_file_extension(optimized_file, "svg")
-    
+
+    print(f"os makedirs {optimized_file}")
     os.makedirs(os.path.dirname(optimized_file), exist_ok=True)
+    print(f"os move {optimized_file}")
     shutil.move(working_copy, optimized_file)
 
     return original_size - optimized_size
