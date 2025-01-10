@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Optim Guard
-        uses: chris-rutkowski/optim-guard@v1.0.0
+        uses: chris-rutkowski/optim-guard@v2.0.0
 ```
 
 ---
@@ -59,7 +59,7 @@ If your `optim_guard.ignore` file is not in the root directory, specify its loca
 ```yaml
 steps:
   - name: Optim Guard
-    uses: chris-rutkowski/optim-guard@v1.0.0
+    uses: chris-rutkowski/optim-guard@v2.0.0
       with:
         ignore_file: ./my/path/my_optim_guard.ignore
 ```
