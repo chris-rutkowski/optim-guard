@@ -35,13 +35,11 @@ def swap_extension(file, extension):
     return f"{root}.{extension}"
 
 def process_file(file, file_type):
-    print(f"process_file {file} {file_type}")
     temp_dir = tempfile.gettempdir()
     
     working_copy = file
 
     while True:
-        print(f"while iteration {file} {file_type}")
         temp_file = os.path.join(temp_dir, str(uuid.uuid4()))
 
         commands = {
@@ -88,14 +86,12 @@ def process_file(file, file_type):
     if optimized_size >= original_size:
         return 0
 
-    optimized_file = os.path.join("optim_guard_result3", file)
+    optimized_file = os.path.join("optim_guard_result4", file)
 
-    if file_type == "svg" and file.endswith(".pdf"):
+    if file_type == "svg" and get_file_type(file) == "pdf":
         optimized_file = swap_extension(optimized_file, "svg")
 
-    print(f"os makedirs {optimized_file}")
     os.makedirs(os.path.dirname(optimized_file), exist_ok=True)
-    print(f"os move {optimized_file}")
     shutil.move(working_copy, optimized_file)
 
     return original_size - optimized_size
@@ -112,7 +108,7 @@ files = load_files_from_json(sys.argv[2:])
 
 total_reduced_bytes = 0
 
-os.makedirs("optim_guard_result3", exist_ok=True)
+os.makedirs("optim_guard_result4", exist_ok=True)
 
 for file in files:
     if not file:
