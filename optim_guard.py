@@ -30,7 +30,7 @@ def get_file_type(file):
         return "pdf"
     return None
 
-def change_file_extension(file, extension):
+def swap_extension(file, extension):
     root, _ = os.path.splitext(file)
     return f"{root}.{extension}"
 
@@ -90,7 +90,7 @@ def process_file(file, file_type):
     optimized_file = os.path.join("optim_guard_result", file)
 
     if file_type == "svg" and file.endswith(".pdf"):
-        optimized_file = change_file_extension(optimized_file, "svg")
+        optimized_file = swap_extension(optimized_file, "svg")
 
     print(f"os makedirs {optimized_file}")
     os.makedirs(os.path.dirname(optimized_file), exist_ok=True)
@@ -111,7 +111,7 @@ files = load_files_from_json(sys.argv[2:])
 
 total_reduced_bytes = 0
 
-os.makedirs("optim_guard_result", exist_ok=True)
+os.makedirs("optim_guard_result2", exist_ok=True)
 
 for file in files:
     if not file:
