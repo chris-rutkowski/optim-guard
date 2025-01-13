@@ -40,7 +40,7 @@ jobs:
 
 ---
 
-### 2. **Create an Ignore File** (optional)
+### 2. **Create an ignore file** (optional)
 Add a `optim_guard.ignore` file to the root of your repository to define patterns for files or directories to exclude from optimization. The syntax follows `.gitignore` conventions.
 
 **Note**: This action processes only **JP(E)G, SVG, PDF, WebP, and PNG** files. You don't need to exclude source code directories or other irrelevant files. Only specify the directories containing these file types that you don't want to optimise.
@@ -52,7 +52,7 @@ test/snapshots/*
 
 ---
 
-## 🔍 How It Works
+## 🔍 How it works?
 
 1. The action scans for added or modified image files in a pull request.
 2. It processes the images, optimizing them using:
@@ -86,7 +86,7 @@ on:
 
 ## ⚙️ Configuration
 
-### **Specify a Custom Ignore File Path**
+### **Specify a custom ignore file path**
 
 ```yaml
 steps:
