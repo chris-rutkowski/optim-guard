@@ -45,6 +45,6 @@ runs:
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: optim_guard_result_v4
+        name: optim_guard_result
         path: optim_guard_result
         retention-days: 1

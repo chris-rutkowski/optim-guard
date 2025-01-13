@@ -47,23 +47,7 @@ Add a `optim_guard.ignore` file to the root of your repository to define pattern
 
 **Example `optim_guard.ignore`:**
 ```gitignore
-test/*
-logs/*
-```
-
----
-
-## ⚙️ Configuration
-
-### **Specify a Custom Ignore File Path**
-If your `optim_guard.ignore` file is not in the root directory, specify its location using the `ignore_file` input:
-
-```yaml
-steps:
-  - name: Optim Guard
-    uses: chris-rutkowski/optim-guard@v2.0.0
-      with:
-        ignore_file: ./my/path/my_optim_guard.ignore
+test/snapshots/*
 ```
 
 ---
@@ -78,12 +62,39 @@ steps:
    - **WebP**: [cwebp](https://developers.google.com/speed/webp)
    - **GIF**: [gifsicle](https://www.lcdf.org/gifsicle/)
 3. PDF files are converted to SVG using [pdf2svg](https://github.com/dawbarton/pdf2svg) and optimized with [SVGO](https://github.com/svg/svgo).
-4. If unoptimized images are found, the PR is blocked, and a downloadable artefact (`optim_guard_result`) is uploaded with the optimized images for developers to review and replace as necessary.
+4. If unoptimized images are found, the action fails, and a downloadable artefact (`optim_guard_result`) is uploaded with the optimised assets for developers to replace.
 
 **Note:**  
 The optimization process only performs **lossless optimization**. This ensures no degradation in image quality while reducing file sizes. However, already optimized images may still be reprocessed if their size can be further reduced. Developers are encouraged to use their judgment to optimize images to an acceptable quality level before committing them, especially when balancing quality and file size.
 
 ---
+
+## ♻️ Optimise existing files
+
+Run the action manually using the `workflow_dispatch` event to scan and optimise existing files in your repository. Trigger it against your main branch to identify and generate optimised versions of assets that you can replace in your next pull request.
+
+```yaml
+name: Optim Guard
+on:
+  workflow_dispatch:
+  pull_request:
+
+...
+```
+
+---
+
+## ⚙️ Configuration
+
+### **Specify a Custom Ignore File Path**
+
+```yaml
+steps:
+  - name: Optim Guard
+    uses: chris-rutkowski/optim-guard@v2.0.0
+      with:
+        ignore_file: ./my/path/my_optim_guard.ignore
+```
 
 ## 📄 License
 This project is licensed under the [MIT License](LICENSE).
