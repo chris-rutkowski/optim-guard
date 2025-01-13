@@ -7,9 +7,17 @@ import sys
 import tempfile
 import uuid
 
-output_folder = "optim_guard_result"
+OUTPUT_FOLDER = "optim_guard_result"
+DEFAULT_IGNORE_FILE = "./optim_guard.ignore"
 
 def load_ignore_patterns(ignore_file):
+    if not os.path.exists(ignore_file):
+        if ignore_file == DEFAULT_IGNORE_FILE:
+            return []
+
+        print(f"Error: The specified ignore file '{ignore_file}' does not exist.", file=sys.stderr)
+        sys.exit(1)
+
     with open(ignore_file, "r") as f:
         return [line.strip() for line in f if line.strip() and not line.startswith("#")]
 
@@ -88,7 +96,7 @@ def process_file(file, file_type):
     if optimized_size >= original_size:
         return 0
 
-    optimized_file = os.path.join(output_folder, file)
+    optimized_file = os.path.join(OUTPUT_FOLDER, file)
 
     if file_type == "svg" and get_file_type(file) == "pdf":
         optimized_file = swap_extension(optimized_file, "svg")
