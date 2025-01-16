@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Optim Guard
-        uses: chris-rutkowski/optim-guard@v2.0.0
+        uses: chris-rutkowski/optim-guard@v3.0.0
 ```
 
 ---
@@ -95,7 +95,7 @@ PDF files can be converted to SVG format and optimised. This functionality is di
 ```yaml
 steps:
   - name: Optim Guard
-    uses: chris-rutkowski/optim-guard@v2.0.0
+    uses: chris-rutkowski/optim-guard@v3.0.0
       with:
         process_pdfs: "true"
 ```
@@ -105,7 +105,7 @@ steps:
 ```yaml
 steps:
   - name: Optim Guard
-    uses: chris-rutkowski/optim-guard@v2.0.0
+    uses: chris-rutkowski/optim-guard@v3.0.0
       with:
         ignore_file: ./my/path/my_optim_guard.ignore
 ```
