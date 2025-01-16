@@ -1,4 +1,4 @@
-# Optim Guard
+# Optim Guard WIP
 
 **Optim Guard** is a GitHub Action designed to ensure your repository stays lean by preventing unoptimized images from being merged into your codebase. It detects unoptimized assets in pull requests, provides a downloadable artifact with optimized replacements, and blocks the PR until the issues are resolved.
 
