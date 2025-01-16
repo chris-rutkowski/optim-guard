@@ -41,7 +41,12 @@ runs:
 
     - name: Run Optim Guard
       run: |
-        python3 ${GITHUB_ACTION_PATH}/optim_guard.py ${{ inputs.ignore_file }} .github/outputs/modified_files.json .github/outputs/added_files.json .github/outputs/all_repo_files.json --process_pdfs=${{ inputs.process_pdfs }}
+        python3 ${GITHUB_ACTION_PATH}/optim_guard.py \
+          ${{ inputs.ignore_file }} \
+          .github/outputs/modified_files.json \
+          .github/outputs/added_files.json \
+          .github/outputs/all_repo_files.json \
+          $([[ "${{ inputs.process_pdfs }}" == "true" ]] && echo "--process-pdfs")
       shell: bash
 
     - name: Upload
