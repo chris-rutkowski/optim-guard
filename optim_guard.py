@@ -116,9 +116,15 @@ def load_files_from_json(file_paths):
             files.extend(json.load(f))
     return files
 
-ignore_patterns = load_ignore_patterns(sys.argv[1])
-files = load_files_from_json(sys.argv[2:])
-parser = argparse.ArgumentParser(description="Optim Guard Script")
+parser = argparse.ArgumentParser()
+parser.add_argument("--process-pdfs", action="store_true")
+parser.add_argument("inputs", nargs="+")
+args = parser.parse_args()
+
+inputs = args.inputs
+
+ignore_patterns = load_ignore_patterns(inputs[0])
+files = load_files_from_json(inputs[1:])
     
 parser.add_argument(
     "--process_pdfs",
@@ -143,7 +149,7 @@ for file in files:
     if not file_type:
         continue
 
-    if file_type == "pdf" and not process_pdfs:
+    if file_type == "pdf" and not args.process_pdfs:
         continue
 
     reduced_bytes = process_file(file, file_type)
