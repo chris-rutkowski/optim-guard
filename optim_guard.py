@@ -1,3 +1,4 @@
+import argparse
 import fnmatch
 import json
 import os
@@ -115,8 +116,14 @@ def load_files_from_json(file_paths):
             files.extend(json.load(f))
     return files
 
-ignore_patterns = load_ignore_patterns(sys.argv[1])
-files = load_files_from_json(sys.argv[2:])
+parser = argparse.ArgumentParser()
+parser.add_argument("--process-pdfs", action="store_true")
+parser.add_argument("inputs", nargs="+")
+args = parser.parse_args()
+
+inputs = args.inputs
+ignore_patterns = load_ignore_patterns(inputs[0])
+files = load_files_from_json(inputs[1:])
 
 total_reduced_bytes = 0
 
@@ -125,12 +132,14 @@ for file in files:
         continue
 
     if should_ignore(file, ignore_patterns):
-        print(f"Ignoring: {file}")
         continue
 
     file_type = get_file_type(file)
 
     if not file_type:
+        continue
+
+    if file_type == "pdf" and not args.process_pdfs:
         continue
 
     reduced_bytes = process_file(file, file_type)

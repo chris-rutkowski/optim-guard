@@ -20,7 +20,7 @@
 
 ## 🛠️ Usage
 
-### 1. **Add the GitHub Action**
+### 1. Add the GitHub Action
 Create a GitHub Actions workflow in `.github/workflows/optim_guard.yml`:
 
 ```yaml
@@ -35,12 +35,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Optim Guard
-        uses: chris-rutkowski/optim-guard@v2.0.0
+        uses: chris-rutkowski/optim-guard@v3.0.0
 ```
 
 ---
 
-### 2. **Create an ignore file** (optional)
+### 2. Create an ignore file (optional)
 Add a `optim_guard.ignore` file to the root of your repository to define patterns for files or directories to exclude from optimization. The syntax follows `.gitignore` conventions.
 
 **Note**: This action processes only **JP(E)G, SVG, PDF, WebP, and PNG** files. You don't need to exclude source code directories or other irrelevant files. Only specify the directories containing these file types that you don't want to optimise.
@@ -86,12 +86,26 @@ on:
 
 ## ⚙️ Configuration
 
-### **Specify a custom ignore file path**
+### Enable optimising PDF files
+
+PDF files can be converted to SVG format and optimised. This functionality is disabled by default, but you can enable it. 
+
+**Note:** Based on testing, the Xcode archiving pipeline produces smaller final results with PDFs than SVGs.
 
 ```yaml
 steps:
   - name: Optim Guard
-    uses: chris-rutkowski/optim-guard@v2.0.0
+    uses: chris-rutkowski/optim-guard@v3.0.0
+      with:
+        process_pdfs: "true"
+```
+
+### Specify a custom ignore file path
+
+```yaml
+steps:
+  - name: Optim Guard
+    uses: chris-rutkowski/optim-guard@v3.0.0
       with:
         ignore_file: ./my/path/my_optim_guard.ignore
 ```
