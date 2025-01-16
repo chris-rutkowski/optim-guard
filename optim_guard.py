@@ -1,3 +1,4 @@
+import argparse
 import fnmatch
 import json
 import os
@@ -117,6 +118,16 @@ def load_files_from_json(file_paths):
 
 ignore_patterns = load_ignore_patterns(sys.argv[1])
 files = load_files_from_json(sys.argv[2:])
+parser = argparse.ArgumentParser(description="Optim Guard Script")
+    
+parser.add_argument(
+    "--process_pdfs",
+    type=str,
+    default="false",
+    help="Enable processing of PDF files (true or false)"
+)
+args, remaining_args = parser.parse_known_args()
+process_pdfs = args.process_pdfs.lower() == "true"
 
 total_reduced_bytes = 0
 
@@ -125,12 +136,14 @@ for file in files:
         continue
 
     if should_ignore(file, ignore_patterns):
-        print(f"Ignoring: {file}")
         continue
 
     file_type = get_file_type(file)
 
     if not file_type:
+        continue
+
+    if file_type == "pdf" and not process_pdfs:
         continue
 
     reduced_bytes = process_file(file, file_type)
