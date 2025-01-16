@@ -122,18 +122,8 @@ parser.add_argument("inputs", nargs="+")
 args = parser.parse_args()
 
 inputs = args.inputs
-
 ignore_patterns = load_ignore_patterns(inputs[0])
 files = load_files_from_json(inputs[1:])
-    
-parser.add_argument(
-    "--process_pdfs",
-    type=str,
-    default="false",
-    help="Enable processing of PDF files (true or false)"
-)
-args, remaining_args = parser.parse_known_args()
-process_pdfs = args.process_pdfs.lower() == "true"
 
 total_reduced_bytes = 0
 
